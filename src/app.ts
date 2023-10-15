@@ -178,3 +178,5 @@ const locationConvert = (rawLng: number, rawLat: number) => {
   const lat = Math.abs(rawLat) + "°" + (rawLat > 0 ? "N" : "S");
   return lng + " " + lat;
 };
+
+export default app;
