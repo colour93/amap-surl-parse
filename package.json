@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "prod": "npm run build && node dist/index.js"
+    "vercel-build": "echo hello"
   },
   "repository": {
     "type": "git",
