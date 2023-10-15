@@ -2,7 +2,7 @@
 
 使用方法
 
-GET `https://amap-surl-parse.fur93.icu?url=${url}`
+GET `https://amap-surl-parse.fur93.icu/api?url=${url}`
 
 响应示例
 

@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "高德地图 surl 数据解析",
   "scripts": {
-    "dev": "ts-node src/app.ts",
+    "dev": "ts-node src/index.ts",
     "build": "tsc",
-    "prod": "npm run build && node dist/app.js"
+    "prod": "npm run build && node dist/index.js"
   },
   "repository": {
     "type": "git",

@@ -47,7 +47,7 @@ interface LocationInfo {
 const app = express();
 const port = 3000;
 
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
   const { url } = req.query as { url: string };
 
   if (!url) {
