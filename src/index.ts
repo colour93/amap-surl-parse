@@ -1,5 +1,6 @@
 import express from "express";
 import axios, { AxiosError } from "axios";
+import cors from "cors";
 
 const axiosInstance = axios.create({
   maxRedirects: 0,
@@ -46,6 +47,8 @@ interface LocationInfo {
 
 const app = express();
 const port = 3000;
+
+app.use(cors())
 
 app.get("/", async (req, res) => {
   const { url } = req.query as { url: string };
