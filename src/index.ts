@@ -35,20 +35,20 @@ class UnexpectedRedirectUrlQueryError extends Error {
 }
 
 interface LocationInfo {
-  id: string;
-  lat: number;
-  lng: number;
-  locationString: string;
-  locationStringGeneral: string;
-  name: string;
-  formattedAddress: string;
-  regionalismCode: string;
+  id?: string;
+  lat?: number;
+  lng?: number;
+  locationString?: string;
+  locationStringGeneral?: string;
+  name?: string;
+  formattedAddress?: string;
+  regionalismCode?: string;
 }
 
 const app = express();
 const port = 3000;
 
-app.use(cors())
+app.use(cors());
 
 app.get("/", async (req, res) => {
   const { url } = req.query as { url: string };
@@ -86,11 +86,18 @@ app.get("/", async (req, res) => {
     if (redirectUrlObj.hostname != "wb.amap.com")
       throw new UnexpectedRedirectUrlError(redirectUrl);
 
-    const rawQuery = redirectUrlObj.searchParams.get("p");
+    const rawQuery =
+      redirectUrlObj.searchParams.get("p") ||
+      redirectUrlObj.searchParams.get("q");
 
-    if (!rawQuery) throw new UnexpectedRedirectUrlQueryError(redirectUrl);
+    let type: "p" | "q" | null = null;
+    if (redirectUrlObj.searchParams.get("p")) type = "p";
+    if (redirectUrlObj.searchParams.get("q")) type = "q";
 
-    const locationInfo = queryParser(rawQuery);
+    if (!rawQuery || !type)
+      throw new UnexpectedRedirectUrlQueryError(redirectUrl);
+
+    const locationInfo = queryParser(rawQuery, type);
 
     res.send({
       code: 0,
@@ -156,10 +163,17 @@ app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
-const queryParser = (rawQuery: string): LocationInfo => {
+const queryParser = (rawQuery: string, type: "p" | "q"): LocationInfo => {
   try {
-    const [id, latStr, lngStr, name, formattedAddress, regionalismCode] =
-      rawQuery.split(",");
+    let id, latStr, lngStr, name, formattedAddress, regionalismCode;
+
+    if (type == "p")
+      [id, latStr, lngStr, name, formattedAddress, regionalismCode] =
+        rawQuery.split(",");
+
+    if (type == "q")
+      [latStr, lngStr, name, formattedAddress, regionalismCode] =
+        rawQuery.split(",");
 
     return {
       id,
