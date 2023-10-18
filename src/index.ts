@@ -172,7 +172,7 @@ const queryParser = (rawQuery: string, type: "p" | "q"): LocationInfo => {
         rawQuery.split(",");
 
     if (type == "q")
-      [latStr, lngStr, name, formattedAddress, regionalismCode] =
+      [latStr, lngStr, formattedAddress, regionalismCode] =
         rawQuery.split(",");
 
     return {
